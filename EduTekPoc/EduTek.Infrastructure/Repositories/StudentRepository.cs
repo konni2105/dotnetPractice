@@ -46,6 +46,7 @@ namespace EduTek.Infrastructure.Repositories
             existingStudent.LastName = student.LastName;
             existingStudent.Email = student.Email;
             existingStudent.PhoneNumber = student.PhoneNumber;
+            existingStudent.DateOfBirth = student.DateOfBirth;
 
             await _context.SaveChangesAsync();
 

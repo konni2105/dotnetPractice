@@ -1,16 +1,16 @@
-﻿using EduTek.Infrastructure.Models;
+﻿using EduTek.Application.DTOs;
 
 namespace EduTek.Application.Services
 {
-   public interface IStudentService
+    public interface IStudentService
     {
-        Task<List<Student>> GetAllAsync();
+        Task<List<StudentDto>> GetAllAsync();
 
-        Task<Student?> GetByIdAsync(int id);
+        Task<StudentDto?> GetByIdAsync(int id);
 
-        Task<Student> CreateAsync(Student student);
+        Task<StudentDto> CreateAsync(CreateStudentDto dto);
 
-        Task<bool> UpdateAsync(int id, Student student);
+        Task<bool> UpdateAsync(int id, UpdateStudentDto dto);
 
         Task<bool> DeleteAsync(int id);
     }

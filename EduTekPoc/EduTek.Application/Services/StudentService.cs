@@ -1,4 +1,5 @@
-﻿using EduTek.Infrastructure.Models;
+﻿using EduTek.Application.DTOs;
+using EduTek.Infrastructure.Models;
 using EduTek.Infrastructure.Repositories;
 
 namespace EduTek.Application.Services
@@ -12,23 +13,79 @@ namespace EduTek.Application.Services
             _repository = repository;
         }
 
-        public async Task<List<Student>> GetAllAsync()
+
+        //entity to dto
+        public async Task<List<StudentDto>> GetAllAsync()
         {
-            return await _repository.GetAllAsync();
+            var students = await _repository.GetAllAsync();
+
+            return students.Select(s => new StudentDto
+            {
+                StudentId = s.StudentId,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Email = s.Email,
+                PhoneNumber = s.PhoneNumber,
+                DateOfBirth = s.DateOfBirth
+            }).ToList();
         }
 
-        public async Task<Student?> GetByIdAsync(int id)
+        public async Task<StudentDto?> GetByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            var student = await _repository.GetByIdAsync(id);
+
+            if (student == null)
+                return null;
+
+            return new StudentDto
+            {
+                StudentId = student.StudentId,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                PhoneNumber = student.PhoneNumber,
+                DateOfBirth = student.DateOfBirth
+            };
         }
 
-        public async Task<Student> CreateAsync(Student student)
+
+        //post -> dto to entity
+        public async Task<StudentDto> CreateAsync(CreateStudentDto dto)
         {
-            return await _repository.AddAsync(student);
+            var student = new Student
+            {
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                PhoneNumber = dto.PhoneNumber,
+                DateOfBirth = dto.DateOfBirth
+            };
+
+            var createdStudent = await _repository.AddAsync(student);
+
+            return new StudentDto
+            {
+                StudentId = createdStudent.StudentId,
+                FirstName = createdStudent.FirstName,
+                LastName = createdStudent.LastName,
+                Email = createdStudent.Email,
+                PhoneNumber = createdStudent.PhoneNumber,
+                DateOfBirth = createdStudent.DateOfBirth
+            };
         }
 
-        public async Task<bool> UpdateAsync(int id, Student student)
+        //put -> dto to entity
+        public async Task<bool> UpdateAsync(int id, UpdateStudentDto dto)
         {
+            var student = new Student
+            {
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                PhoneNumber = dto.PhoneNumber,
+                DateOfBirth = dto.DateOfBirth
+            };
+
             return await _repository.UpdateAsync(id, student);
         }
 
