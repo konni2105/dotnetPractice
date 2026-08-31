@@ -1,0 +1,75 @@
+﻿@model IEnumerable<LaptopCart.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products</h1>
+
+<a asp-controller="AdminProduct"
+   asp-action="Create">
+    Add New Product
+</a>
+
+<br />
+<br />
+
+<table border="1" cellpadding="10">
+
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var product in Model)
+        {
+            <tr>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(product.ImagePath))
+                    {
+                        <img src="@product.ImagePath"
+                             width="100"
+                             height="100" />
+                    }
+                </td>
+
+                <td>
+                    @product.Name
+                </td>
+
+                <td>
+                    @product.Description
+                </td>
+
+                <td>
+                    @product.Price
+                </td>
+
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@product.ProductId">
+                        Edit
+                    </a>
+
+                    |
+
+                    <a asp-action="Delete"
+                       asp-route-id="@product.ProductId">
+                        Delete
+                    </a>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

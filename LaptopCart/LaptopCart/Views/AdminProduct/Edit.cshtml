@@ -1,0 +1,78 @@
+﻿@model LaptopCart.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h1>Edit Product</h1>
+
+<form asp-controller="AdminProduct"
+      asp-action="Edit"
+      method="post"
+      enctype="multipart/form-data">
+
+    <input type="hidden" asp-for="ProductId" />
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label asp-for="Description"></label>
+        <input asp-for="Description" />
+        <span asp-validation-for="Description"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label asp-for="Price"></label>
+
+        <input asp-for="Price"
+               type="number"
+               min="0.01"
+               step="0.01" />
+
+        <span asp-validation-for="Price"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Current Image</label>
+        <br />
+
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath"
+                 width="150"
+                 height="150" />
+        }
+    </div>
+
+    <br />
+
+    <div>
+        <label>Choose New Image</label>
+
+        <input asp-for="ImageFile"
+               type="file" />
+    </div>
+
+    <br />
+
+    <button type="submit">
+        Update Product
+    </button>
+
+</form>
+
+<br />
+
+<a asp-action="Index">
+    Back to Products
+</a>
